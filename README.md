@@ -11,4 +11,4 @@ iOS 收款计算器界面
 * 设置最大显示金额
 
 
-![image](/Users/liaopanpan/Desktop/截图文件/屏幕快照 2017-05-19 下午6.02.00.png)
+![image](https://github.com/L-vinCent/calculView_function/blob/master/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-19%20%E4%B8%8B%E5%8D%886.02.00.png)
