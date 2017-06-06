@@ -14,6 +14,9 @@
 
 
 #define WPHexColor(hex) WPHexColorA(hex,1.0f)
+// 色值
+#define WPRGBColorA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#define WPRGBColor(r,g,b) WPRGBColorA(r,g,b,1.0f)
 
 @interface PPCalculView ()
 {
@@ -77,17 +80,17 @@
 
 
 - (IBAction)calculate:(UIButton *)sender {
-
-    UIButton *btn=(UIButton *)sender;
-
-    NSArray *firstArr=@[@"00",@"+",@".",@"←",@"0"];  //首字母输入要忽略的字符
     
-    NSArray *LastArr=@[@"+",@"."];  //不同连续输入的字符
-
+    UIButton *btn=(UIButton *)sender;
+    
+    NSArray *firstArr=@[@"00",@"+",@".",@"←"];  //首字母输入要忽略的字符
+    
+    NSArray *LastArr=@[@"+",@"."];  //不能连续输入的字符
+    
     NSArray *zeroArr=@[@"+",@"←"];  // 在.00之后可以点击的字符
-
+    
     if (historyStr.length>=3) {
-     //x.00 之后不能再输入数字
+        //x.00 之后不能再输入数字
         NSString *dot=[historyStr substringWithRange:NSMakeRange(historyStr.length-3, 1)];
         
         if ([dot isEqualToString:@"."]&&![zeroArr containsObject:btn.titleLabel.text]&&![[historyStr substringWithRange:NSMakeRange(historyStr.length-1, 1)] isEqualToString:@"+"]) {
@@ -104,7 +107,7 @@
         if ([dot isEqualToString:@"."]&&[btn.titleLabel.text isEqualToString:@"00"]) {
             return;
         }
-
+        
     }
     
     
@@ -113,9 +116,9 @@
         if([firstArr containsObject:btn.titleLabel.text]){
             return;
         }
-
+        
     }else{
-    
+        
         if ([LastArr containsObject:[historyStr substringFromIndex:historyStr.length-1]]) {
             
             if ([LastArr containsObject:btn.titleLabel.text]) {
@@ -125,27 +128,39 @@
             
         }
         
-    
+        
     }
     
-        if ([btn.titleLabel.text isEqualToString:@"收款"]) {
-            //处理收款按钮事件
-            if (self.block) {
-                
-                self.block(_calculatePanel.text.floatValue);
-                
-            }
-            return;
+    if ([btn.titleLabel.text isEqualToString:@"收款"]) {
+        //处理收款按钮事件
+        if (self.block) {
+            
+            self.block(_calculatePanel.text.floatValue);
             
         }
-
-
+        return;
+        
+    }
+    
+    if ([btn.titleLabel.text isEqualToString:@"0"]) {
+        //
+        NSString *zeroStr=[historyStr substringFromIndex:0];
+        
+        if ([zeroStr isEqual:@"0"]) {
+            
+            return;
+        }
+        
+        
+    }
+    
+    
     //处理清除按钮事件
     if ([btn.titleLabel.text isEqualToString:@"←"]) {
-    
+        
         if (historyStr.length>0) {
             
-        //清除原来的数字，重新输入
+            //清除原来的数字，重新输入
             NSRange deleteRange = { [historyStr length] - 1, 1 };
             [historyStr deleteCharactersInRange:deleteRange];
             
@@ -155,45 +170,52 @@
             
             _calculatePanel.text=[NSString stringWithFormat:@"%.2f",[result floatValue]];
             moneyLabel.text=[NSString stringWithFormat:@"应收金额: ￥%.2f",[result floatValue]];
-
+            
             if (historyStr.length==0) {
                 _historyLabel.text =@"";
             }
-   
+            
         }else
         {
-        //在为0的时候继续按清除键
-
+            //在为0的时候继续按清除键
+            
             _historyLabel.text =@"";
             _calculatePanel.text=@"0.00";
             moneyLabel.text=kNorMoneyLabelStr;
-
+            
         }
         
         return;
     }
-
     
-    if (_calculatePanel.text.floatValue>=300000) {
-        _calculatePanel.text=@"300000.00";
-        moneyLabel.text=@"应收金额: 300000.00";
-         _historyLabel.text=@"300000";
-        historyStr=@"300000".mutableCopy;
+    
+    
+    if ([btn.titleLabel.text isEqualToString:@"."]&&[historyStr containsString:@"."]) {
+        //不能出现俩个.
         return;
     }
     
-//    NSString *moneyStr=[NSString stringWithFormat:@"%.2f",sender.titleLabel.text.floatValue];
+    
+    NSMutableString *totalMon=historyStr.mutableCopy;
+    [totalMon appendString:btn.titleLabel.text];
+    if (totalMon.floatValue>300000) {
+        
+        NSLog(@"最高金额不能超过30w");
+        return;
+    }
+    
+    //    NSString *moneyStr=[NSString stringWithFormat:@"%.2f",sender.titleLabel.text.floatValue];
     
     [historyStr appendString:sender.titleLabel.text];
     _historyLabel.text=[historyStr copy];
     
     NSString *result=[self calculatePattern:[self scanPattern:historyStr]];
-
+    
     
     _calculatePanel.text=[NSString stringWithFormat:@"%.2f",[result floatValue]];
     moneyLabel.text=[NSString stringWithFormat:@"应收金额: ￥%.2f",[result floatValue]];
     
-
+    
 }
 
 
@@ -362,37 +384,37 @@
 
     for (int i=0; i<4; i++) {
         
-            for (int j=0; j<4; j++) {
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-                button.frame = CGRectMake(j*(containerWidth/4), i*(containerHeight/4), buttonWidth, buttonHeight);
-                [button addTarget:self action:@selector(calculate:) forControlEvents:UIControlEventTouchUpInside];
+        for (int j=0; j<4; j++) {
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+            button.frame = CGRectMake(j*(containerWidth/4), i*(containerHeight/4), buttonWidth, buttonHeight);
+            [button addTarget:self action:@selector(calculate:) forControlEvents:UIControlEventTouchUpInside];
+            
+            NSString *title = titleArray[n++];
+            
+            
+            button.tag = [title intValue];
+            button.backgroundColor = [UIColor whiteColor];
+            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [button setTitle:title forState:UIControlStateNormal];
+            button.titleLabel.font = [UIFont systemFontOfSize:25];
+            
+            if (j == 3) {
                 
-                NSString *title = titleArray[n++];
-                
-                
-                button.tag = [title intValue];
-                button.backgroundColor = [UIColor whiteColor];
-                [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                [button setTitle:title forState:UIControlStateNormal];
-                button.titleLabel.font = [UIFont fontWithName:@"Heiti TC" size:38];
-                
-                if (j == 3) {
-                    
-                    if (i==2) {
-                        button.frame=CGRectZero;
-                    }
-                    if (i==3) {
-                        
-                        button.frame = CGRectMake(j*(containerWidth/4), 2*(containerHeight/4), buttonWidth, buttonHeight*2);
-                        button.backgroundColor = [UIColor blackColor];
-                        [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-                        button.titleLabel.font = [UIFont systemFontOfSize:18];
-                    }
-                    
-                    
+                if (i==2) {
+                    button.frame=CGRectZero;
                 }
-                [_container addSubview:button];
+                if (i==3) {
+                    
+                    button.frame = CGRectMake(j*(containerWidth/4), 2*(containerHeight/4), buttonWidth, buttonHeight*2);
+                    button.backgroundColor = [UIColor blackColor];
+                    [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+                    button.titleLabel.font = [UIFont systemFontOfSize:25];
+                }
+                
+                
             }
+            [_container addSubview:button];
+        }
         
     }
     
@@ -402,7 +424,7 @@
         float lineW=i==3?containerWidth-buttonWidth:containerWidth;
         
         UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(0, i*buttonHeight, lineW, lineWidth)];
-        lable.backgroundColor = [UIColor blackColor];
+        lable.backgroundColor = WPRGBColor(229, 229, 229);
         [_container addSubview:lable];
         
         
@@ -411,7 +433,7 @@
     for (int i=0; i<4; i++) {
         UILabel *label = [[UILabel alloc]init];
         label.frame = CGRectMake(i*buttonWidth, 0, lineWidth, containerHeight);
-        label.backgroundColor = [UIColor blackColor];
+        label.backgroundColor = WPRGBColor(229, 229, 229);
         [_container addSubview:label];
     }
 }

@@ -17,6 +17,7 @@
 		6744A62D1ECEF3DF0046921F /* caculView_demoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6744A62C1ECEF3DF0046921F /* caculView_demoUITests.m */; };
 		6744A63C1ECEF3F60046921F /* PPCalculView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6744A63B1ECEF3F60046921F /* PPCalculView.m */; };
 		6744A6431ECEF5100046921F /* UIView+PPAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 6744A6421ECEF5100046921F /* UIView+PPAddition.m */; };
+		676512021EE6B66000EA9493 /* FXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 676512011EE6B66000EA9493 /* FXLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		6744A63B1ECEF3F60046921F /* PPCalculView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCalculView.m; sourceTree = "<group>"; };
 		6744A6411ECEF5100046921F /* UIView+PPAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PPAddition.h"; sourceTree = "<group>"; };
 		6744A6421ECEF5100046921F /* UIView+PPAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PPAddition.m"; sourceTree = "<group>"; };
+		676512001EE6B66000EA9493 /* FXLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXLabel.h; sourceTree = "<group>"; };
+		676512011EE6B66000EA9493 /* FXLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +153,8 @@
 		6744A63D1ECEF3FC0046921F /* PPCalculView */ = {
 			isa = PBXGroup;
 			children = (
+				676512001EE6B66000EA9493 /* FXLabel.h */,
+				676512011EE6B66000EA9493 /* FXLabel.m */,
 				6744A6411ECEF5100046921F /* UIView+PPAddition.h */,
 				6744A6421ECEF5100046921F /* UIView+PPAddition.m */,
 				6744A63A1ECEF3F60046921F /* PPCalculView.h */,
@@ -298,6 +303,7 @@
 				6744A60F1ECEF3DF0046921F /* ViewController.m in Sources */,
 				6744A60C1ECEF3DF0046921F /* AppDelegate.m in Sources */,
 				6744A6431ECEF5100046921F /* UIView+PPAddition.m in Sources */,
+				676512021EE6B66000EA9493 /* FXLabel.m in Sources */,
 				6744A6091ECEF3DF0046921F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -536,6 +542,7 @@
 				6744A6331ECEF3DF0046921F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6744A6341ECEF3DF0046921F /* Build configuration list for PBXNativeTarget "caculView_demoTests" */ = {
 			isa = XCConfigurationList;
@@ -544,6 +551,7 @@
 				6744A6361ECEF3DF0046921F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6744A6371ECEF3DF0046921F /* Build configuration list for PBXNativeTarget "caculView_demoUITests" */ = {
 			isa = XCConfigurationList;
@@ -552,6 +560,7 @@
 				6744A6391ECEF3DF0046921F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
